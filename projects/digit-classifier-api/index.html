@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Digit Classifier API</title>
+  <style>
+    /* Base */
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* Hero */
+    h1 {
+      text-align: center;
+      margin-bottom: 0.25em;
+    }
+    .subtitle {
+      text-align: center;
+      margin-top: 0;
+      color: #555;
+    }
+
+    /* Tech Stats */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin: 2rem 0;
+    }
+    .stat h2 {
+      font-size: 1.5rem;
+      margin: 0;
+    }
+    .stat p {
+      margin: 0.25em 0 0;
+    }
+
+    /* Section Headings */
+    h2 {
+      text-align: center;
+      margin: 3rem 0 1rem;
+    }
+
+    /* Demo & Screenshot */
+    .compare {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+    }
+    .compare figure {
+      position: relative;
+      overflow: visible;
+      flex: 1 1 300px;
+      max-width: 45%;
+      text-align: center;
+    }
+    .compare img, .compare iframe {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-width: 600px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+
+      cursor: zoom-in;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transform-origin: center center;
+    }
+    .compare img:hover, .compare iframe:hover {
+      transform: scale(1.5);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      z-index: 10;
+    }
+    .compare figcaption {
+      margin-top: 0.5rem;
+      color: #444;
+    }
+
+    /* Features List */
+    ul {
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      padding: 0;
+      list-style: disc inside;
+      color: #333;
+    }
+    ul li {
+      margin: 0.5em 0;
+    }
+
+    /* Footer Links */
+    .footer-links {
+      text-align: center;
+      margin: 3rem 0 1rem;
+    }
+    .footer-links a {
+      color: #0066cc;
+      text-decoration: none;
+      margin: 0 0.5em;
+    }
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Hero -->
+    <h1>Digit Classifier API</h1>
+    <p class="subtitle">FastAPI · scikit-learn · Python</p>
+
+    <!-- Tech Stats -->
+    <div class="stats">
+      <div class="stat">
+        <h2>FastAPI</h2>
+        <p>REST endpoint</p>
+      </div>
+      <div class="stat">
+        <h2>MNIST</h2>
+        <p>28×28 images</p>
+      </div>
+      <div class="stat">
+        <h2>RandomForest</h2>
+        <p>Pre-trained model</p>
+      </div>
+    </div>
+
+    <!-- Live Demo & Screenshot -->
+    <h2>Live Demo &amp; Screenshot</h2>
+    <div class="compare">
+      <figure>
+        <iframe
+          src="http://127.0.0.1:8000/"
+          width="600"
+          height="400"
+          title="Digit Classifier Demo">
+        </iframe>
+        <figcaption>Upload &amp; classify</figcaption>
+      </figure>
+      <figure>
+        <img
+          src="./static/screenshot.png"
+          alt="Static index.html screenshot">
+        <figcaption>Result display</figcaption>
+      </figure>
+    </div>
+
+    <!-- Features -->
+    <h2>Key Features</h2>
+    <ul>
+      <li>Upload PNG via static/index.html form</li>
+      <li><code>/predict-image/</code> POST endpoint</li>
+      <li>Automatic resizing &amp; preprocessing (Pillow)</li>
+      <li>Fast JSON response with predicted digit</li>
+      <li>Re-trainable via <code>train_model.py</code></li>
+    </ul>
+
+    <!-- Footer Links -->
+    <div class="footer-links">
+      <a href="https://github.com/nayers17/digit-classifier-api" target="_blank">
+        View on GitHub ↗
+      </a>
+    </div>
+  </div>
+</body>
+</html>
