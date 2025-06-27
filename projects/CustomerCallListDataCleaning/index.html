@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Customer Call-List Data Cleaning</title>
+  <style>
+    /* Base */
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* Hero */
+    h1 {
+      text-align: center;
+      margin-bottom: 0.25em;
+    }
+    .subtitle {
+      text-align: center;
+      margin-top: 0;
+      color: #555;
+    }
+
+    /* Quick Stats */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin: 2rem 0;
+    }
+    .stat h2 {
+      font-size: 2rem;
+      margin: 0;
+    }
+    .stat p {
+      margin: 0.25em 0 0;
+    }
+
+    /* Section Headings */
+    h2 {
+      text-align: center;
+      margin: 3rem 0 1rem;
+    }
+
+    /* Before & After */
+    .compare {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+    }
+    .compare figure {
+      position: relative;
+      overflow: visible;           /* allow zoom to escape */
+      flex: 1 1 300px;
+      max-width: 45%;
+      text-align: center;
+    }
+    .compare img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-width: 600px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+
+      /* Zoom behavior */
+      cursor: zoom-in;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transform-origin: center center;
+    }
+    .compare img:hover {
+      transform: scale(2.5);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      z-index: 10;
+    }
+    .compare figcaption {
+      margin-top: 0.5rem;
+      color: #444;
+    }
+
+    /* Code Snippets */
+    .code-snippet {
+      background: #f6f8fa;
+      padding: 1rem;
+      border-radius: 4px;
+      overflow-x: auto;
+      margin: 0.5em 0;
+    }
+
+    /* Run it Yourself */
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 1rem;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-family: monospace;
+      font-size: 0.9rem;
+      margin: 1.5em 0;
+    }
+
+    /* Footer Links */
+    .footer-links {
+      text-align: center;
+      margin: 3rem 0 1rem;
+    }
+    .footer-links a {
+      color: #0066cc;
+      text-decoration: none;
+      margin: 0 0.5em;
+    }
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- Hero -->
+    <h1>Customer Call-List Data Cleaning</h1>
+    <p class="subtitle">Python · Pandas · Jupyter Notebook</p>
+
+    <!-- Quick Stats -->
+    <div class="stats">
+      <div class="stat">
+        <h2>20</h2>
+        <p>Rows processed</p>
+      </div>
+      <div class="stat">
+        <h2>1 dup</h2>
+        <p>Duplicates removed</p>
+      </div>
+      <div class="stat">
+        <h2>3 cols</h2>
+        <p>Columns dropped</p>
+      </div>
+    </div>
+
+    <!-- Before & After -->
+    <h2>Before &amp; After</h2>
+    <div class="compare">
+      <figure>
+        <img src="./assets/before.png" alt="Raw call-list">
+        <figcaption>Raw call-list</figcaption>
+      </figure>
+      <figure>
+        <img src="./assets/after.png" alt="Cleaned &amp; structured">
+        <figcaption>Cleaned &amp; structured</figcaption>
+      </figure>
+    </div>
+
+    <!-- Key Cleaning Steps -->
+    <h2>Key Cleaning Steps</h2>
+    <ul>
+      <li><code>df.drop_duplicates()</code> – remove exact duplicates</li>
+      <li><code>df.drop(columns='Not_Useful_Column')</code> – strip unused</li>
+      <li>
+        Normalize names:  
+        <code>df['Last_Name'] = df['Last_Name'].str.strip('._/')</code>
+      </li>
+      <li>
+        Phone formatting:  
+        <div class="code-snippet">
+          <code>
+            df['Phone_Number'] = df['Phone_Number'].<br>
+            &nbsp;&nbsp;str.replace(r'[^0-9]', '', regex=True)
+          </code>
+        </div>
+      </li>
+      <li>
+        Split address:  
+        <div class="code-snippet">
+          <code>
+            df[['Street','State','Zip']] =<br>
+            &nbsp;&nbsp;df['Address'].str.split(',', expand=True)
+          </code>
+        </div>
+      </li>
+    </ul>
+
+    <!-- How to Run -->
+    <h2>The Jupyter Notebook</h2>
+    <pre><code>import pandas as pd
+df = pd.read_excel(r"/home/pog/projects/bootcamp/pandas/Customer Call List.xlsx")
+df
+CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Contact	Not_Useful_Column
+0	1001	Frodo	Baggins	123-545-5421	123 Shire Lane, Shire	Yes	No	True
+1	1002	Abed	Nadir	123/643/9775	93 West Main Street	No	Yes	False
+2	1003	Walter	/White	7066950392	298 Drugs Driveway	N	NaN	True
+3	1004	Dwight	Schrute	123-543-2345	980 Paper Avenue, Pennsylvania, 18503	Yes	Y	True
+4	1005	Jon	Snow	876|678|3469	123 Dragons Road	Y	No	True
+5	1006	Ron	Swanson	304-762-2467	768 City Parkway	Yes	Yes	True
+6	1007	Jeff	Winger	NaN	1209 South Street	No	No	False
+7	1008	Sherlock	Holmes	876|678|3469	98 Clue Drive	N	No	False
+8	1009	Gandalf	NaN	N/a	123 Middle Earth	Yes	NaN	False
+9	1010	Peter	Parker	123-545-5421	25th Main Street, New York	Yes	No	True
+10	1011	Samwise	Gamgee	NaN	612 Shire Lane, Shire	Yes	No	True
+11	1012	Harry	...Potter	7066950392	2394 Hogwarts Avenue	Y	NaN	True
+12	1013	Don	Draper	123-543-2345	2039 Main Street	Yes	N	False
+13	1014	Leslie	Knope	876|678|3469	343 City Parkway	Yes	No	False
+14	1015	Toby	Flenderson_	304-762-2467	214 HR Avenue	N	No	False
+15	1016	Ron	Weasley	123-545-5421	2395 Hogwarts Avenue	No	N	False
+16	1017	Michael	Scott	123/643/9775	121 Paper Avenue, Pennsylvania	Yes	No	False
+17	1018	Clark	Kent	7066950392	3498 Super Lane	Y	NaN	True
+18	1019	Creed	Braton	N/a	N/a	N/a	Yes	True
+19	1020	Anakin	Skywalker	876|678|3469	910 Tatooine Road, Tatooine	Yes	N	True
+20	1020	Anakin	Skywalker	876|678|3469	910 Tatooine Road, Tatooine	Yes	N	True
+df = df.drop_duplicates()
+df
+CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Contact	Not_Useful_Column
+0	1001	Frodo	Baggins	123-545-5421	123 Shire Lane, Shire	Yes	No	True
+1	1002	Abed	Nadir	123/643/9775	93 West Main Street	No	Yes	False
+2	1003	Walter	/White	7066950392	298 Drugs Driveway	N	NaN	True
+3	1004	Dwight	Schrute	123-543-2345	980 Paper Avenue, Pennsylvania, 18503	Yes	Y	True
+4	1005	Jon	Snow	876|678|3469	123 Dragons Road	Y	No	True
+5	1006	Ron	Swanson	304-762-2467	768 City Parkway	Yes	Yes	True
+6	1007	Jeff	Winger	NaN	1209 South Street	No	No	False
+7	1008	Sherlock	Holmes	876|678|3469	98 Clue Drive	N	No	False
+8	1009	Gandalf	NaN	N/a	123 Middle Earth	Yes	NaN	False
+9	1010	Peter	Parker	123-545-5421	25th Main Street, New York	Yes	No	True
+10	1011	Samwise	Gamgee	NaN	612 Shire Lane, Shire	Yes	No	True
+11	1012	Harry	...Potter	7066950392	2394 Hogwarts Avenue	Y	NaN	True
+12	1013	Don	Draper	123-543-2345	2039 Main Street	Yes	N	False
+13	1014	Leslie	Knope	876|678|3469	343 City Parkway	Yes	No	False
+14	1015	Toby	Flenderson_	304-762-2467	214 HR Avenue	N	No	False
+15	1016	Ron	Weasley	123-545-5421	2395 Hogwarts Avenue	No	N	False
+16	1017	Michael	Scott	123/643/9775	121 Paper Avenue, Pennsylvania	Yes	No	False
+17	1018	Clark	Kent	7066950392	3498 Super Lane	Y	NaN	True
+18	1019	Creed	Braton	N/a	N/a	N/a	Yes	True
+19	1020	Anakin	Skywalker	876|678|3469	910 Tatooine Road, Tatooine	Yes	N	True
+df = df.drop(columns='Not_Useful_Column')
+df 
+CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Contact
+0	1001	Frodo	Baggins	123-545-5421	123 Shire Lane, Shire	Yes	No
+1	1002	Abed	Nadir	123/643/9775	93 West Main Street	No	Yes
+2	1003	Walter	/White	7066950392	298 Drugs Driveway	N	NaN
+3	1004	Dwight	Schrute	123-543-2345	980 Paper Avenue, Pennsylvania, 18503	Yes	Y
+4	1005	Jon	Snow	876|678|3469	123 Dragons Road	Y	No
+5	1006	Ron	Swanson	304-762-2467	768 City Parkway	Yes	Yes
+6	1007	Jeff	Winger	NaN	1209 South Street	No	No
+7	1008	Sherlock	Holmes	876|678|3469	98 Clue Drive	N	No
+8	1009	Gandalf	NaN	N/a	123 Middle Earth	Yes	NaN
+9	1010	Peter	Parker	123-545-5421	25th Main Street, New York	Yes	No
+10	1011	Samwise	Gamgee	NaN	612 Shire Lane, Shire	Yes	No
+11	1012	Harry	...Potter	7066950392	2394 Hogwarts Avenue	Y	NaN
+12	1013	Don	Draper	123-543-2345	2039 Main Street	Yes	N
+13	1014	Leslie	Knope	876|678|3469	343 City Parkway	Yes	No
+14	1015	Toby	Flenderson_	304-762-2467	214 HR Avenue	N	No
+15	1016	Ron	Weasley	123-545-5421	2395 Hogwarts Avenue	No	N
+16	1017	Michael	Scott	123/643/9775	121 Paper Avenue, Pennsylvania	Yes	No
+17	1018	Clark	Kent	7066950392	3498 Super Lane	Y	NaN
+18	1019	Creed	Braton	N/a	N/a	N/a	Yes
+19	1020	Anakin	Skywalker	876|678|3469	910 Tatooine Road, Tatooine	Yes	N
+# df["Last_Name"] = df["Last_Name"].str.rstrip("_")
+# df["Last_Name"] = df["Last_Name"].str.lstrip("...")
+# df["Last_Name"] = df["Last_Name"].str.lstrip("/")
+## to remove them all in one go (from either left or right side):vv 
+df["Last_Name"] = df["Last_Name"].str.rstrip("1/_23.")
+df
+CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Contact
+0	1001	Frodo	Baggins	123-545-5421	123 Shire Lane, Shire	Yes	No
+1	1002	Abed	Nadir	123/643/9775	93 West Main Street	No	Yes
+2	1003	Walter	/White	7066950392	298 Drugs Driveway	N	NaN
+3	1004	Dwight	Schrute	123-543-2345	980 Paper Avenue, Pennsylvania, 18503	Yes	Y
+4	1005	Jon	Snow	876|678|3469	123 Dragons Road	Y	No
+5	1006	Ron	Swanson	304-762-2467	768 City Parkway	Yes	Yes
+6	1007	Jeff	Winger	NaN	1209 South Street	No	No
+7	1008	Sherlock	Holmes	876|678|3469	98 Clue Drive	N	No
+8	1009	Gandalf	NaN	N/a	123 Middle Earth	Yes	NaN
+9	1010	Peter	Parker	123-545-5421	25th Main Street, New York	Yes	No
+10	1011	Samwise	Gamgee	NaN	612 Shire Lane, Shire	Yes	No
+11	1012	Harry	...Potter	7066950392	2394 Hogwarts Avenue	Y	NaN
+12	1013	Don	Draper	123-543-2345	2039 Main Street	Yes	N
+13	1014	Leslie	Knope	876|678|3469	343 City Parkway	Yes	No
+14	1015	Toby	Flenderson	304-762-2467	214 HR Avenue	N	No
+15	1016	Ron	Weasley	123-545-5421	2395 Hogwarts Avenue	No	N
+16	1017	Michael	Scott	123/643/9775	121 Paper Avenue, Pennsylvania	Yes	No
+17	1018	Clark	Kent	7066950392	3498 Super Lane	Y	NaN
+18	1019	Creed	Braton	N/a	N/a	N/a	Yes
+19	1020	Anakin	Skywalker	876|678|3469	910 Tatooine Road, Tatooine	Yes	N
+df["Phone_Number"] = df["Phone_Number"].str.replace('[^a-zA-Z0-9]','', regex=True)
+df
+CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Contact
+0	1001	Frodo	Baggins	1235455421	123 Shire Lane, Shire	Yes	No
+1	1002	Abed	Nadir	1236439775	93 West Main Street	No	Yes
+2	1003	Walter	/White	NaN	298 Drugs Driveway	N	NaN
+3	1004	Dwight	Schrute	1235432345	980 Paper Avenue, Pennsylvania, 18503	Yes	Y
+4	1005	Jon	Snow	8766783469	123 Dragons Road	Y	No
+5	1006	Ron	Swanson	3047622467	768 City Parkway	Yes	Yes
+6	1007	Jeff	Winger	NaN	1209 South Street	No	No
+7	1008	Sherlock	Holmes	8766783469	98 Clue Drive	N	No
+8	1009	Gandalf	NaN	Na	123 Middle Earth	Yes	NaN
+9	1010	Peter	Parker	1235455421	25th Main Street, New York	Yes	No
+10	1011	Samwise	Gamgee	NaN	612 Shire Lane, Shire	Yes	No
+11	1012	Harry	...Potter	NaN	2394 Hogwarts Avenue	Y	NaN
+12	1013	Don	Draper	1235432345	2039 Main Street	Yes	N
+13	1014	Leslie	Knope	8766783469	343 City Parkway	Yes	No
+14	1015	Toby	Flenderson	3047622467	214 HR Avenue	N	No
+15	1016	Ron	Weasley	1235455421	2395 Hogwarts Avenue	No	N
+16	1017	Michael	Scott	1236439775	121 Paper Avenue, Pennsylvania	Yes	No
+17	1018	Clark	Kent	NaN	3498 Super Lane	Y	NaN
+18	1019	Creed	Braton	Na	N/a	N/a	Yes
+19	1020	Anakin	Skywalker	8766783469	910 Tatooine Road, Tatooine	Yes	N
+# df
+# df['Phone_Number']=df['Phone_Number'].apply(lambda x: x[0:3] + '-' + x[3:6] + '-' + x[6:10])
+# df['Phone_Number'] = df['Phone_Number'].apply(lambda x: str(x))
+df
+CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Contact
+0	1001	Frodo	Baggins	1235455421	123 Shire Lane, Shire	Yes	No
+1	1002	Abed	Nadir	1236439775	93 West Main Street	No	Yes
+2	1003	Walter	/White	NaN	298 Drugs Driveway	N	NaN
+3	1004	Dwight	Schrute	1235432345	980 Paper Avenue, Pennsylvania, 18503	Yes	Y
+4	1005	Jon	Snow	8766783469	123 Dragons Road	Y	No
+5	1006	Ron	Swanson	3047622467	768 City Parkway	Yes	Yes
+6	1007	Jeff	Winger	NaN	1209 South Street	No	No
+7	1008	Sherlock	Holmes	8766783469	98 Clue Drive	N	No
+8	1009	Gandalf	NaN	Na	123 Middle Earth	Yes	NaN
+9	1010	Peter	Parker	1235455421	25th Main Street, New York	Yes	No
+10	1011	Samwise	Gamgee	NaN	612 Shire Lane, Shire	Yes	No
+11	1012	Harry	...Potter	NaN	2394 Hogwarts Avenue	Y	NaN
+12	1013	Don	Draper	1235432345	2039 Main Street	Yes	N
+13	1014	Leslie	Knope	8766783469	343 City Parkway	Yes	No
+14	1015	Toby	Flenderson	3047622467	214 HR Avenue	N	No
+15	1016	Ron	Weasley	1235455421	2395 Hogwarts Avenue	No	N
+16	1017	Michael	Scott	1236439775	121 Paper Avenue, Pennsylvania	Yes	No
+17	1018	Clark	Kent	NaN	3498 Super Lane	Y	NaN
+18	1019	Creed	Braton	Na	N/a	N/a	Yes
+19	1020	Anakin	Skywalker	8766783469	910 Tatooine Road, Tatooine	Yes	N
+# df['Phone_Number']=df['Phone_Number'].str.replace("nan--", '')
+# df['Phone_Number']=df['Phone_Number'].str.replace("Na--", '')
+df
+CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Contact
+0	1001	Frodo	Baggins	1235455421	123 Shire Lane, Shire	Yes	No
+1	1002	Abed	Nadir	1236439775	93 West Main Street	No	Yes
+2	1003	Walter	/White	NaN	298 Drugs Driveway	N	NaN
+3	1004	Dwight	Schrute	1235432345	980 Paper Avenue, Pennsylvania, 18503	Yes	Y
+4	1005	Jon	Snow	8766783469	123 Dragons Road	Y	No
+5	1006	Ron	Swanson	3047622467	768 City Parkway	Yes	Yes
+6	1007	Jeff	Winger	NaN	1209 South Street	No	No
+7	1008	Sherlock	Holmes	8766783469	98 Clue Drive	N	No
+8	1009	Gandalf	NaN	Na	123 Middle Earth	Yes	NaN
+9	1010	Peter	Parker	1235455421	25th Main Street, New York	Yes	No
+10	1011	Samwise	Gamgee	NaN	612 Shire Lane, Shire	Yes	No
+11	1012	Harry	...Potter	NaN	2394 Hogwarts Avenue	Y	NaN
+12	1013	Don	Draper	1235432345	2039 Main Street	Yes	N
+13	1014	Leslie	Knope	8766783469	343 City Parkway	Yes	No
+14	1015	Toby	Flenderson	3047622467	214 HR Avenue	N	No
+15	1016	Ron	Weasley	1235455421	2395 Hogwarts Avenue	No	N
+16	1017	Michael	Scott	1236439775	121 Paper Avenue, Pennsylvania	Yes	No
+17	1018	Clark	Kent	NaN	3498 Super Lane	Y	NaN
+18	1019	Creed	Braton	Na	N/a	N/a	Yes
+19	1020	Anakin	Skywalker	8766783469	910 Tatooine Road, Tatooine	Yes	N
+df[["Street_Address", "State", "Zip_Code"]] = df["Address"].str.split(',', n=2, expand=True)
+df
+CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Contact	Street_Address	State	Zip_Code
+0	1001	Frodo	Baggins	1235455421	123 Shire Lane, Shire	Yes	No	123 Shire Lane	Shire	None
+1	1002	Abed	Nadir	1236439775	93 West Main Street	No	Yes	93 West Main Street	None	None
+2	1003	Walter	/White	NaN	298 Drugs Driveway	N	NaN	298 Drugs Driveway	None	None
+3	1004	Dwight	Schrute	1235432345	980 Paper Avenue, Pennsylvania, 18503	Yes	Y	980 Paper Avenue	Pennsylvania	18503
+4	1005	Jon	Snow	8766783469	123 Dragons Road	Y	No	123 Dragons Road	None	None
+5	1006	Ron	Swanson	3047622467	768 City Parkway	Yes	Yes	768 City Parkway	None	None
+6	1007	Jeff	Winger	NaN	1209 South Street	No	No	1209 South Street	None	None
+7	1008	Sherlock	Holmes	8766783469	98 Clue Drive	N	No	98 Clue Drive	None	None
+8	1009	Gandalf	NaN	Na	123 Middle Earth	Yes	NaN	123 Middle Earth	None	None
+9	1010	Peter	Parker	1235455421	25th Main Street, New York	Yes	No	25th Main Street	New York	None
+10	1011	Samwise	Gamgee	NaN	612 Shire Lane, Shire	Yes	No	612 Shire Lane	Shire	None
+11	1012	Harry	...Potter	NaN	2394 Hogwarts Avenue	Y	NaN	2394 Hogwarts Avenue	None	None
+12	1013	Don	Draper	1235432345	2039 Main Street	Yes	N	2039 Main Street	None	None
+13	1014	Leslie	Knope	8766783469	343 City Parkway	Yes	No	343 City Parkway	None	None
+14	1015	Toby	Flenderson	3047622467	214 HR Avenue	N	No	214 HR Avenue	None	None
+15	1016	Ron	Weasley	1235455421	2395 Hogwarts Avenue	No	N	2395 Hogwarts Avenue	None	None
+16	1017	Michael	Scott	1236439775	121 Paper Avenue, Pennsylvania	Yes	No	121 Paper Avenue	Pennsylvania	None
+17	1018	Clark	Kent	NaN	3498 Super Lane	Y	NaN	3498 Super Lane	None	None
+18	1019	Creed	Braton	Na	N/a	N/a	Yes	N/a	None	None
+19	1020	Anakin	Skywalker	8766783469	910 Tatooine Road, Tatooine	Yes	N	910 Tatooine Road	Tatooine	None
+# df = pd.read_csv(r'213update.csv')
+# df["Paying Customer"] = df["Paying Customer"].str.replace('Yes', 'Y')
+# df["Paying Customer"] = df["Paying Customer"].str.replace('No', 'N')
+# df
+CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Contact	Street_Address	State	Zip_Code
+0	1001	Frodo	Baggins	123-545-5421	123 Shire Lane, Shire	Y	No	123 Shire Lane	Shire	NaN
+1	1002	Abed	Nadir	123-643-9775	93 West Main Street	N	Yes	93 West Main Street	NaN	NaN
+2	1003	Walter	White	NaN	298 Drugs Driveway	N	NaN	298 Drugs Driveway	NaN	NaN
+3	1004	Dwight	Schrute	123-543-2345	980 Paper Avenue, Pennsylvania, 18503	Y	Y	980 Paper Avenue	Pennsylvania	18503.0
+4	1005	Jon	Snow	876-678-3469	123 Dragons Road	Y	No	123 Dragons Road	NaN	NaN
+5	1006	Ron	Swanson	304-762-2467	768 City Parkway	Y	Yes	768 City Parkway	NaN	NaN
+6	1007	Jeff	Winger	NaN	1209 South Street	N	No	1209 South Street	NaN	NaN
+7	1008	Sherlock	Holmes	876-678-3469	98 Clue Drive	N	No	98 Clue Drive	NaN	NaN
+8	1009	Gandalf	NaN	NaN	123 Middle Earth	Y	NaN	123 Middle Earth	NaN	NaN
+9	1010	Peter	Parker	123-545-5421	25th Main Street, New York	Y	No	25th Main Street	New York	NaN
+10	1011	Samwise	Gamgee	NaN	612 Shire Lane, Shire	Y	No	612 Shire Lane	Shire	NaN
+11	1012	Harry	Potter	NaN	2394 Hogwarts Avenue	Y	NaN	2394 Hogwarts Avenue	NaN	NaN
+12	1013	Don	Draper	123-543-2345	2039 Main Street	Y	N	2039 Main Street	NaN	NaN
+13	1014	Leslie	Knope	876-678-3469	343 City Parkway	Y	No	343 City Parkway	NaN	NaN
+14	1015	Toby	Flenderson	304-762-2467	214 HR Avenue	N	No	214 HR Avenue	NaN	NaN
+15	1016	Ron	Weasley	123-545-5421	2395 Hogwarts Avenue	N	N	2395 Hogwarts Avenue	NaN	NaN
+16	1017	Michael	Scott	123-643-9775	121 Paper Avenue, Pennsylvania	Y	No	121 Paper Avenue	Pennsylvania	NaN
+17	1018	Clark	Kent	NaN	3498 Super Lane	Y	NaN	3498 Super Lane	NaN	NaN
+18	1019	Creed	Braton	NaN	N/a	N/a	Yes	N/a	NaN	NaN
+19	1020	Anakin	Skywalker	876-678-3469	910 Tatooine Road, Tatooine	Y	N	910 Tatooine Road	Tatooine	NaN
+df["Do_Not_Contact"] = df["Do_Not_Contact"].str.replace('Yes', 'Y')
+df["Do_Not_Contact"] = df["Do_Not_Contact"].str.replace('No', 'N')
+df
+CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Contact	Street_Address	State	Zip_Code
+0	1001	Frodo	Baggins	123-545-5421	123 Shire Lane, Shire	Y	N	123 Shire Lane	Shire	NaN
+1	1002	Abed	Nadir	123-643-9775	93 West Main Street	N	Y	93 West Main Street	NaN	NaN
+2	1003	Walter	White	NaN	298 Drugs Driveway	N	NaN	298 Drugs Driveway	NaN	NaN
+3	1004	Dwight	Schrute	123-543-2345	980 Paper Avenue, Pennsylvania, 18503	Y	Y	980 Paper Avenue	Pennsylvania	18503.0
+4	1005	Jon	Snow	876-678-3469	123 Dragons Road	Y	N	123 Dragons Road	NaN	NaN
+5	1006	Ron	Swanson	304-762-2467	768 City Parkway	Y	Y	768 City Parkway	NaN	NaN
+6	1007	Jeff	Winger	NaN	1209 South Street	N	N	1209 South Street	NaN	NaN
+7	1008	Sherlock	Holmes	876-678-3469	98 Clue Drive	N	N	98 Clue Drive	NaN	NaN
+8	1009	Gandalf	NaN	NaN	123 Middle Earth	Y	NaN	123 Middle Earth	NaN	NaN
+9	1010	Peter	Parker	123-545-5421	25th Main Street, New York	Y	N	25th Main Street	New York	NaN
+10	1011	Samwise	Gamgee	NaN	612 Shire Lane, Shire	Y	N	612 Shire Lane	Shire	NaN
+11	1012	Harry	Potter	NaN	2394 Hogwarts Avenue	Y	NaN	2394 Hogwarts Avenue	NaN	NaN
+12	1013	Don	Draper	123-543-2345	2039 Main Street	Y	N	2039 Main Street	NaN	NaN
+13	1014	Leslie	Knope	876-678-3469	343 City Parkway	Y	N	343 City Parkway	NaN	NaN
+14	1015	Toby	Flenderson	304-762-2467	214 HR Avenue	N	N	214 HR Avenue	NaN	NaN
+15	1016	Ron	Weasley	123-545-5421	2395 Hogwarts Avenue	N	N	2395 Hogwarts Avenue	NaN	NaN
+16	1017	Michael	Scott	123-643-9775	121 Paper Avenue, Pennsylvania	Y	N	121 Paper Avenue	Pennsylvania	NaN
+17	1018	Clark	Kent	NaN	3498 Super Lane	Y	NaN	3498 Super Lane	NaN	NaN
+18	1019	Creed	Braton	NaN	N/a	N/a	Y	N/a	NaN	NaN
+19	1020	Anakin	Skywalker	876-678-3469	910 Tatooine Road, Tatooine	Y	N	910 Tatooine Road	Tatooine	NaN
+df = df.fillna('')
+df
+CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Contact	Street_Address	State	Zip_Code
+0	1001	Frodo	Baggins	123-545-5421	123 Shire Lane, Shire	Y	N	123 Shire Lane	Shire	
+1	1002	Abed	Nadir	123-643-9775	93 West Main Street	N	Y	93 West Main Street		
+2	1003	Walter	White		298 Drugs Driveway	N		298 Drugs Driveway		
+3	1004	Dwight	Schrute	123-543-2345	980 Paper Avenue, Pennsylvania, 18503	Y	Y	980 Paper Avenue	Pennsylvania	18503
+4	1005	Jon	Snow	876-678-3469	123 Dragons Road	Y	N	123 Dragons Road		
+5	1006	Ron	Swanson	304-762-2467	768 City Parkway	Y	Y	768 City Parkway		
+6	1007	Jeff	Winger		1209 South Street	N	N	1209 South Street		
+7	1008	Sherlock	Holmes	876-678-3469	98 Clue Drive	N	N	98 Clue Drive		
+8	1009	Gandalf			123 Middle Earth	Y		123 Middle Earth		
+9	1010	Peter	Parker	123-545-5421	25th Main Street, New York	Y	N	25th Main Street	New York	
+10	1011	Samwise	Gamgee		612 Shire Lane, Shire	Y	N	612 Shire Lane	Shire	
+11	1012	Harry	Potter		2394 Hogwarts Avenue	Y		2394 Hogwarts Avenue		
+12	1013	Don	Draper	123-543-2345	2039 Main Street	Y	N	2039 Main Street		
+13	1014	Leslie	Knope	876-678-3469	343 City Parkway	Y	N	343 City Parkway		
+14	1015	Toby	Flenderson	304-762-2467	214 HR Avenue	N	N	214 HR Avenue		
+15	1016	Ron	Weasley	123-545-5421	2395 Hogwarts Avenue	N	N	2395 Hogwarts Avenue		
+16	1017	Michael	Scott	123-643-9775	121 Paper Avenue, Pennsylvania	Y	N	121 Paper Avenue	Pennsylvania	
+17	1018	Clark	Kent		3498 Super Lane	Y		3498 Super Lane		
+18	1019	Creed	Braton				Y			
+19	1020	Anakin	Skywalker	876-678-3469	910 Tatooine Road, Tatooine	Y	N	910 Tatooine Road	Tatooine	
+for x in df.index:
+    if df.loc[x, "Phone_Number"] == '':
+        df.drop(x, inplace=True)
+        
+df
+CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Contact	Street_Address	State	Zip_Code
+0	1001	Frodo	Baggins	123-545-5421	123 Shire Lane, Shire	Y	N	123 Shire Lane	Shire	
+4	1005	Jon	Snow	876-678-3469	123 Dragons Road	Y	N	123 Dragons Road		
+7	1008	Sherlock	Holmes	876-678-3469	98 Clue Drive	N	N	98 Clue Drive		
+9	1010	Peter	Parker	123-545-5421	25th Main Street, New York	Y	N	25th Main Street	New York	
+12	1013	Don	Draper	123-543-2345	2039 Main Street	Y	N	2039 Main Street		
+13	1014	Leslie	Knope	876-678-3469	343 City Parkway	Y	N	343 City Parkway		
+14	1015	Toby	Flenderson	304-762-2467	214 HR Avenue	N	N	214 HR Avenue		
+15	1016	Ron	Weasley	123-545-5421	2395 Hogwarts Avenue	N	N	2395 Hogwarts Avenue		
+16	1017	Michael	Scott	123-643-9775	121 Paper Avenue, Pennsylvania	Y	N	121 Paper Avenue	Pennsylvania	
+19	1020	Anakin	Skywalker	876-678-3469	910 Tatooine Road, Tatooine	Y	N	910 Tatooine Road	Tatooine	
+df = df.drop(columns='Zip_Code')
+df
+index	CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Contact	Street_Address	State
+0	0	1001	Frodo	Baggins	123-545-5421	123 Shire Lane, Shire	Y	N	123 Shire Lane	Shire
+1	4	1005	Jon	Snow	876-678-3469	123 Dragons Road	Y	N	123 Dragons Road	
+2	7	1008	Sherlock	Holmes	876-678-3469	98 Clue Drive	N	N	98 Clue Drive	
+3	9	1010	Peter	Parker	123-545-5421	25th Main Street, New York	Y	N	25th Main Street	New York
+4	12	1013	Don	Draper	123-543-2345	2039 Main Street	Y	N	2039 Main Street	
+5	13	1014	Leslie	Knope	876-678-3469	343 City Parkway	Y	N	343 City Parkway	
+6	14	1015	Toby	Flenderson	304-762-2467	214 HR Avenue	N	N	214 HR Avenue	
+7	15	1016	Ron	Weasley	123-545-5421	2395 Hogwarts Avenue	N	N	2395 Hogwarts Avenue	
+8	16	1017	Michael	Scott	123-643-9775	121 Paper Avenue, Pennsylvania	Y	N	121 Paper Avenue	Pennsylvania
+9	19	1020	Anakin	Skywalker	876-678-3469	910 Tatooine Road, Tatooine	Y	</code></pre>
+
+    <!-- Footer Links -->
+    <div class="footer-links">
+      <a href="https://github.com/nayers17/CustomerCallListDataCleaning" target="_blank">View on GitHub ↗</a>
+      |
+      <a href="Customer%20Call%20List.xlsx" download>Dirty CSV</a>
+      |
+      <a href="finalclean.csv" download>Clean CSV</a>
+    </div>
+  </div>
+</body>
+</html>
