@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Digit Classifier API</title>
+  <title>Yelp Review Sentiment Explainer</title>
   <style>
     /* Base */
     body {
@@ -57,7 +57,7 @@
     }
     .compare figure {
       position: relative;
-      overflow: visible;           /* allow zoom to escape */
+      overflow: visible;
       flex: 1 1 300px;
       max-width: 45%;
       text-align: center;
@@ -74,13 +74,12 @@
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       transform-origin: center center;
     }
-
-        .compare img:hover {
-      transform: scale(2);
+    .compare img:hover {
+      transform: scale(2.5);
       box-shadow: 0 8px 20px rgba(0,0,0,0.2);
       z-index: 10;
     }
-      .compare figcaption {
+    .compare figcaption {
       margin-top: 0.5rem;
       color: #444;
     }
@@ -91,7 +90,10 @@
       padding: 0;
     }
     ul li {
-      margin: 0.5em 0;
+      margin: 0.75em 0;
+    }
+    ul ul {
+      margin: 0.5em 0 0 1.5em;
     }
     code {
       background: #f6f8fa;
@@ -119,22 +121,24 @@
   <div class="container">
 
     <!-- Hero -->
-    <h1>Digit Classifier API</h1>
-    <p class="subtitle">FastAPI · scikit-learn · Python</p>
+    <h1>NLP 5 Class Sentinment Analysis Model Trained on Yelp Reviews</h1>
+    <p class="subtitle">DistilBERT · Transformers Interpret · PyTorch · Python</p>
 
     <!-- Quick Stats -->
     <div class="stats">
       <div class="stat">
-        <h2>1 Endpoint</h2>
-        <p class="subtitle">/predict-image/</p>
+        <h2>5 Classes</h2>
+        <p class="subtitle">Ratings 0 (lowest) → 4 (highest)</p>
       </div>
       <div class="stat">
-        <h2>70,000 image dataset</h2>
-        <p class="subtitle">Trained on 80% | Tested on 20%</p>
+        <h2>~60k Reviews</h2>
+        <p class="subtitle">56,000 train | 3,800 test</p>
       </div>
       <div class="stat">
-        <h2>Random Forest</h2>
-        <p class="subtitle">Pre-trained MNIST model</p>
+        <h2>Metrics</h2>
+        <p class="subtitle">
+        Accuracy  0.913 · Macro F₁ 0.918 · Precision 0.907 · Recall 0.930
+        </p>
       </div>
     </div>
 
@@ -142,39 +146,38 @@
     <h2>Live Demo Screenshots</h2>
     <div class="compare">
       <figure>
-        <img src="./assets/demo-ui.png" alt="Upload & classify UI">
-        <figcaption>Upload & classify form</figcaption>
+        <img src="./assets/reviewrating.png" alt="Enter review text">
+        <figcaption>Enter review &amp; submit</figcaption>
       </figure>
       <figure>
-        <img src="./assets/demo-result.png" alt="Prediction result">
-        <figcaption>Prediction result</figcaption>
+        <img src="./assets/eval.png" alt="Predicted class and probability">
+        <figcaption>Predicted class &amp; probability</figcaption>
       </figure>
       <figure>
-        <img src="./assets/scores.png" alt="Prediction result">
-        <figcaption>Model scores</figcaption>
+        <img src="./assets/weights.png" alt="Token contribution scores">
+        <figcaption>Token attribution heatmap</figcaption>
       </figure>
     </div>
 
     <!-- Key Features -->
-<h2>Key Features</h2>
-<ul>
-  <li><strong>FastAPI &amp; REST:</strong> POST to <code>/predict-image/</code> for seamless integration</li>
-  <li><strong>Direct 28×28 PNG Input:</strong> no extra preprocessing or resizing needed</li>
-  <li><strong>Random Forest Classifier:</strong> pre-trained on 56 000 MNIST samples (n_estimators=100)</li>
-  <li><strong>High Accuracy:</strong>  
+    <h2>Key Features</h2>
     <ul>
-      <li>🔹 Train accuracy: <code>100 %</code></li>
-      <li>🔹 Test accuracy: <code>97 %</code></li>
-      <li>🔹 5-fold CV mean: <code>96.8 %</code></li>
+      <li><strong>Interactive Inference:</strong> Type any customer review and get a live rating (0–4).</li>
+      <li><strong>Explainable AI:</strong> Per-token contribution scores via <code>transformers-interpret</code>.</li>
+      <li><strong>DistilBERT Backbone:</strong> 66 M parameters, fine-tuned for 5-class sentiment on Yelp.</li>
+      <li><strong>Robust Metrics:</strong>
+        <ul>
+            <li>🔹 Accuracy: <code>91.32 %</code></li>
+            <li>🔹 Macro F<sub>1</sub>: <code>91.81 %</code></li>
+            <li>🔹 Precision: <code>90.67 %</code></li>
+            <li>🔹 Recall: <code>92.96 %</code></li>
+        </ul>
+      </li>
     </ul>
-  </li>
-  <li><strong>JSON Response:</strong> <code>{ "prediction": 3 }</code> in &lt;50 ms per image</li>
-  <li><strong>Self-contained &amp; Deployable:</strong> 6 dependencies, under 1 MB code footprint</li>
-</ul>
 
     <!-- Footer Links -->
     <div class="footer-links">
-      <a href="https://github.com/nayers17/digit-classifier-api" target="_blank">View on GitHub ↗</a>
+      <a href="https://github.com/nayers17/nlpsentimentanalysis5class" target="_blank">View on GitHub ↗</a>
     </div>
 
   </div>
