@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Coffee Sales Dashboard</title>
+  <style>
+    /* Base */
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* Hero */
+    h1 {
+      text-align: center;
+      margin-bottom: 0.25em;
+    }
+    .subtitle {
+      text-align: center;
+      margin-top: 0;
+      color: #555;
+    }
+
+    /* Quick Stats */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin: 2rem 0;
+    }
+    .stat h2 {
+      font-size: 2rem;
+      margin: 0;
+    }
+    .stat p {
+      margin: 0.25em 0 0;
+    }
+
+    /* Section Headings */
+    h2 {
+      text-align: center;
+      margin: 3rem 0 1rem;
+    }
+
+    /* Screenshots */
+    .compare {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+    }
+    .compare figure {
+      position: relative;
+      overflow: visible;
+      flex: 1 1 300px;
+      max-width: 45%;
+      text-align: center;
+    }
+    .compare img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-width: 600px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      cursor: zoom-in;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transform-origin: center center;
+    }
+    .compare img:hover {
+      transform: scale(2.5);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      z-index: 10;
+    }
+    .compare figcaption {
+      margin-top: 0.5rem;
+      color: #444;
+    }
+
+    /* Key Features */
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    ul li {
+      margin: 0.75em 0;
+    }
+    ul ul {
+      margin: 0.5em 0 0 1.5em;
+    }
+    code {
+      background: #f6f8fa;
+      padding: 0.2em 0.4em;
+      border-radius: 3px;
+      font-family: monospace;
+    }
+
+    /* Footer Links */
+    .footer-links {
+      text-align: center;
+      margin: 3rem 0 1rem;
+    }
+    .footer-links a {
+      color: #0066cc;
+      text-decoration: none;
+      margin: 0 0.5em;
+    }
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- Hero -->
+    <h1>Coffee Sales Dashboard</h1>
+    <p class="subtitle">Excel · Power Query · Excel Functions · Advanced Pivot Charts</p>
+
+    <!-- Quick Stats -->
+    <div class="stats">
+    <div class="stat">
+        <h2>Power Query</h2>
+        <p class="subtitle">ETL-style cleanup of 3 sheets into one fact table</p>
+    </div>
+    <div class="stat">
+        <h2>XLOOKUP, Index/Match &amp; Nested Ifs</h2>
+        <p class="subtitle">Dynamic joins &amp; cross-sheet lookups</p>
+    </div>
+    <div class="stat">
+        <h2>Pivot Tables &amp; Charts</h2>
+        <p class="subtitle">Interactive time-series line &amp; bar visuals</p>
+    </div>
+    </div>
+
+    <!-- Gallery -->
+    <h2>Dashboard &amp; Data Layers</h2>
+    <div class="compare">
+      <figure>
+        <img src="assets/dashboard.png" alt="Finished dashboard">
+        <figcaption>Stakeholder-ready dashboard with slicers</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/clean_orders.png" alt="Clean orders sheet">
+        <figcaption>Standardized, Transformed <em>orders</em> sheet after lookups</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/raw.png"     alt="Key formulas">
+        <figcaption>Raw Data From Start of Project</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/slice.png"     alt="Key formulas">
+        <figcaption>Adjusting time series to Jan 2019-Jan 2021 and slicing by weight</figcaption>
+      </figure>      
+    </div>
+
+    <!-- Key Features -->
+    <h2>Key Features</h2>
+    <ul>
+    <li>
+        <strong>Multi-sheet data wrangling:</strong>
+        consolidated raw <code>orders</code>, <code>customers</code> &amp; <code>products</code> sheets into one fact table using XLOOKUP, INDEX/MATCH and nested IF logic.
+    </li>
+    <li>
+        <strong>Smart lookups &amp; standardization:</strong>
+        pulled each order’s country and loyalty tier from the Customers sheet, and fetched unit prices by matching both product code and package size in the Products sheet (e.g.<br>
+        <code>=XLOOKUP($C2,$C$2:$C$1001,customers!$G$2:$G$1001)</code> |<br>
+        <code>=INDEX(products!$C$2:$G$49, MATCH($D2,products!$A$2:$A$49,0), MATCH($L$1,products!$A$1:$G$1,0))</code> |<br>
+        <code>=IF(I2="Rob","Robusta",IF(I2="Ara","Arabica",…))</code>
+    </li>
+    <li>
+        <strong>Interactive slicing &amp; drill-down:</strong>
+        intuitive date, roast-type, size &amp; loyalty-card slicers drive all visuals.  
+        <em>e.g. slice Jan ’19→Jan ’20 &amp; 2.5 kg → see total sales by country, top-5 customers and time-series update for that segment (2.5 kg was highest overall).</em>
+    </li>
+    <li>
+        <strong>Dynamic pivot charts:</strong>
+        time-series line, country bar &amp; top-5 customer bar—all fully sliceable by your filters.
+    </li>
+    <li>
+        <strong>Executive-ready layout:</strong>
+        clean KPI tiles, consistent colour palette, and printable A4 dashboard format.
+    </li>
+    </ul>
+
+
+    <!-- Footer -->
+    <div class="footer-links">
+      <a href="https://github.com/nayers17/CoffeeDataDashboard" target="_blank">View on GitHub ↗</a>
+    </div>
+
+  </div>
+</body>
+</html>
