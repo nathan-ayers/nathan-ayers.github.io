@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Local Financial Data Pipeline</title>
+  <style>
+    /* Base */
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* Hero */
+    h1 {
+      text-align: center;
+      margin-bottom: 0.25em;
+    }
+    .subtitle {
+      text-align: center;
+      margin-top: 0;
+      color: #555;
+    }
+
+    /* Quick Stats */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin: 2rem 0;
+    }
+    .stat h2 {
+      font-size: 2rem;
+      margin: 0;
+    }
+    .stat p {
+      margin: 0.25em 0 0;
+    }
+
+    /* Section Headings */
+    h2 {
+      text-align: center;
+      margin: 3rem 0 1rem;
+    }
+
+    /* Summary */
+    .summary p {
+      max-width: 800px;
+      margin: 0.5em auto 2em;
+      line-height: 1.6;
+      color: #444;
+    }
+
+    /* Technology Overview */
+    .tech-list {
+      max-width: 800px;
+      margin: 0 auto 2em;
+      padding: 0;
+      list-style: none;
+    }
+    .tech-list li {
+      margin: 0.75em 0;
+      line-height: 1.5;
+    }
+    .tech-list code {
+      background: #f6f8fa;
+      padding: 0.2em 0.4em;
+      border-radius: 3px;
+      font-family: monospace;
+    }
+
+    /* Screenshots: vertical list */
+    .compare {
+      display: block;
+      margin: 0 auto;
+      max-width: 800px;
+    }
+    .compare figure {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .compare img {
+      display: block;
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      margin: 0 auto;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      cursor: zoom-in;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transform-origin: center center;
+    }
+    .compare img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 10;
+    }
+    .compare figcaption {
+      margin-top: 0.5rem;
+      color: #444;
+    }
+
+    /* Key Features */
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    ul li {
+      margin: 0.75em 0;
+    }
+    code {
+      background: #f6f8fa;
+      padding: 0.2em 0.4em;
+      border-radius: 3px;
+      font-family: monospace;
+    }
+
+    /* Footer Links */
+    .footer-links {
+      text-align: center;
+      margin: 3rem 0 1rem;
+    }
+    .footer-links a {
+      color: #0066cc;
+      text-decoration: none;
+      margin: 0 0.5em;
+    }
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- Hero -->
+    <h1>Local Financial Data Pipeline</h1>
+    <p class="subtitle">Python · DuckDB · Parquet · dbt · Streamlit · Kafka · Spark · Flink</p>
+
+    <!-- Summary -->
+    <h2>Project Summary</h2>
+    <div class="summary">
+      <p>
+        This Local Financial Data Pipeline acquires three core datasets: detailed loan-level records (e.g., loan amounts, terms, grades, borrower profiles) from Lending Club, daily bank stock prices (OHLC) for major institutions (JPM, BAC, C, WFC, GS), and macroeconomic indicators (unemployment, GDP growth, CPI) via the FRED API. We ingest and archive raw files, clean and convert them to efficient Parquet format, and load into DuckDB for SQL-based transformations with dbt, building a star-schema warehouse. We then apply both batch (Spark) and real-time (Kafka + Flink) processes to compute key metrics—default rates by credit grade, rolling volatility, Sharpe ratios, and macro correlations—and train a baseline default-prediction model. Finally, a Streamlit dashboard visualizes KPIs, time-series analyses, and model insights.
+      </p>
+      <p>
+        By project end, you’ll have a fully automated, reproducible pipeline that mimics enterprise-grade banking analytics: from raw ingestion to actionable insights. This empowers financial organizations to monitor portfolio risk in near–real time, evaluate market exposures, and support data-driven lending or investment decisions—all without cloud costs.
+      </p>
+    </div>
+
+    <!-- Technology Overview -->
+    <h2>Technology Stack & Roles</h2>
+    <ul class="tech-list">
+      <li><strong>Python:</strong> Orchestrates data ingestion (<code>requests</code>) and transformation (<code>pandas</code>), giving you full control over scripting and quick prototyping.</li>
+      <li><strong>Apache Kafka:</strong> Distributed message broker for ingesting real-time financial and macroeconomic streams.</li>
+      <li><strong>Apache Flink:</strong> Stream processing engine for continuous analytics on live data.</li>
+      <li><strong>Apache Spark:</strong> Distributed compute platform for scalable ETL, batch processing, and ML workloads.</li>
+      <li><strong>DuckDB:</strong> A zero-config, high-performance SQL engine that serves as your local data warehouse, enabling fast ad-hoc analytics.</li>
+      <li><strong>Parquet:</strong> Columnar storage format in <code>data/staging</code>—reduces file size and accelerates read performance.</li>
+      <li><strong>dbt:</strong> SQL-based transformations, testing, and documentation—builds a robust star schema with clear lineage and automated tests.</li>
+      <li><strong>Streamlit:</strong> Interactive web dashboard for KPI cards and visualizations, letting stakeholders explore metrics and predictions in real time.</li>
+      <li><strong>Airflow / Cron & Makefile:</strong> Orchestrates and schedules all pipeline steps—from ingestion to dashboard refresh.</li>
+      <li><strong>GitHub Actions:</strong> CI/CD that runs dbt tests and Python unit tests on every push, ensuring code reliability.</li>
+    </ul>
+
+    <!-- Screenshots -->
+    <h2>Screenshots</h2>
+    <div class="compare">
+      <!-- Add as many <figure> blocks as needed; they will stack vertically -->
+      <figure>
+        <img src="assets/project_skeleton.png" alt="Project folder skeleton">
+        <figcaption>Project directory scaffold</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/raw_download.png" alt="Raw data download">
+        <figcaption>This file uses requests library. We specify where to save the data. We create a function that has a target URL where our data lies. We specify where the .zip will be landing. If the HTTP request is valid, the we write the data by chunks to ensure we don't exhaust our memory (industry-standard practice).</figcaption>
+      </figure>
+    </div>
+
+    <!-- Key Features -->
+    <h2>Key Features</h2>
+    <ul>
+      <li><strong>Clear structure &amp; docs:</strong> Modular folders, inline comments, and step-by-step READMEs.</li>
+      <li><strong>Raw data ingestion:</strong> Python script with streaming download via <code>requests</code>.</li>
+      <li><strong>Efficient storage:</strong> CSV → Snappy-compressed Parquet using <code>pandas</code> for fast reads.</li>
+      <li><strong>Local warehouse:</strong> DuckDB file as a zero-admin SQL engine, fully compatible with dbt.</li>
+      <li><strong>Stream processing:</strong> Kafka for ingesting real-time streams and Flink for continuous analytics.</li>
+      <li><strong>Distributed compute:</strong> Spark for scalable ETL and batch processing of large datasets.</li>
+      <li><strong>Reproducibility:</strong> Cron/Makefile or Airflow DAG for automated, scheduled runs.</li>
+      <li><strong>Portfolio-ready:</strong> Demonstrates end-to-end data engineering skills for finance roles.</li>
+    </ul>
+
+    <!-- Footer -->
+    <div class="footer-links">
+      <a href="https://github.com/nayers17/credRiskAnalPipe" target="_blank">View on GitHub ↗</a>
+    </div>
+
+  </div>
+</body>
+</html>
