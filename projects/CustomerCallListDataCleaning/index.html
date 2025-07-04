@@ -192,6 +192,7 @@
     <pre><code>import pandas as pd
 df = pd.read_excel(r"/home/pog/projects/bootcamp/pandas/Customer Call List.xlsx")
 df
+
 CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Contact	Not_Useful_Column
 0	1001	Frodo	Baggins	123-545-5421	123 Shire Lane, Shire	Yes	No	True
 1	1002	Abed	Nadir	123/643/9775	93 West Main Street	No	Yes	False
@@ -214,8 +215,10 @@ CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Cont
 18	1019	Creed	Braton	N/a	N/a	N/a	Yes	True
 19	1020	Anakin	Skywalker	876|678|3469	910 Tatooine Road, Tatooine	Yes	N	True
 20	1020	Anakin	Skywalker	876|678|3469	910 Tatooine Road, Tatooine	Yes	N	True
+
 df = df.drop_duplicates()
 df
+
 CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Contact	Not_Useful_Column
 0	1001	Frodo	Baggins	123-545-5421	123 Shire Lane, Shire	Yes	No	True
 1	1002	Abed	Nadir	123/643/9775	93 West Main Street	No	Yes	False
@@ -237,8 +240,10 @@ CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Cont
 17	1018	Clark	Kent	7066950392	3498 Super Lane	Y	NaN	True
 18	1019	Creed	Braton	N/a	N/a	N/a	Yes	True
 19	1020	Anakin	Skywalker	876|678|3469	910 Tatooine Road, Tatooine	Yes	N	True
+
 df = df.drop(columns='Not_Useful_Column')
 df 
+
 CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Contact
 0	1001	Frodo	Baggins	123-545-5421	123 Shire Lane, Shire	Yes	No
 1	1002	Abed	Nadir	123/643/9775	93 West Main Street	No	Yes
@@ -260,12 +265,16 @@ CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Cont
 17	1018	Clark	Kent	7066950392	3498 Super Lane	Y	NaN
 18	1019	Creed	Braton	N/a	N/a	N/a	Yes
 19	1020	Anakin	Skywalker	876|678|3469	910 Tatooine Road, Tatooine	Yes	N
-# df["Last_Name"] = df["Last_Name"].str.rstrip("_")
-# df["Last_Name"] = df["Last_Name"].str.lstrip("...")
-# df["Last_Name"] = df["Last_Name"].str.lstrip("/")
-## to remove them all in one go (from either left or right side):vv 
+
+df["Last_Name"] = df["Last_Name"].str.rstrip("_")
+df["Last_Name"] = df["Last_Name"].str.lstrip("...")
+df["Last_Name"] = df["Last_Name"].str.lstrip("/")
+
+## to remove them all in one go (from either left or right side):
+
 df["Last_Name"] = df["Last_Name"].str.rstrip("1/_23.")
 df
+
 CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Contact
 0	1001	Frodo	Baggins	123-545-5421	123 Shire Lane, Shire	Yes	No
 1	1002	Abed	Nadir	123/643/9775	93 West Main Street	No	Yes
@@ -287,8 +296,10 @@ CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Cont
 17	1018	Clark	Kent	7066950392	3498 Super Lane	Y	NaN
 18	1019	Creed	Braton	N/a	N/a	N/a	Yes
 19	1020	Anakin	Skywalker	876|678|3469	910 Tatooine Road, Tatooine	Yes	N
+
 df["Phone_Number"] = df["Phone_Number"].str.replace('[^a-zA-Z0-9]','', regex=True)
 df
+
 CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Contact
 0	1001	Frodo	Baggins	1235455421	123 Shire Lane, Shire	Yes	No
 1	1002	Abed	Nadir	1236439775	93 West Main Street	No	Yes
@@ -310,10 +321,12 @@ CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Cont
 17	1018	Clark	Kent	NaN	3498 Super Lane	Y	NaN
 18	1019	Creed	Braton	Na	N/a	N/a	Yes
 19	1020	Anakin	Skywalker	8766783469	910 Tatooine Road, Tatooine	Yes	N
+
 # df
-# df['Phone_Number']=df['Phone_Number'].apply(lambda x: x[0:3] + '-' + x[3:6] + '-' + x[6:10])
-# df['Phone_Number'] = df['Phone_Number'].apply(lambda x: str(x))
+df['Phone_Number']=df['Phone_Number'].apply(lambda x: x[0:3] + '-' + x[3:6] + '-' + x[6:10])
+df['Phone_Number'] = df['Phone_Number'].apply(lambda x: str(x))
 df
+
 CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Contact
 0	1001	Frodo	Baggins	1235455421	123 Shire Lane, Shire	Yes	No
 1	1002	Abed	Nadir	1236439775	93 West Main Street	No	Yes
@@ -335,9 +348,11 @@ CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Cont
 17	1018	Clark	Kent	NaN	3498 Super Lane	Y	NaN
 18	1019	Creed	Braton	Na	N/a	N/a	Yes
 19	1020	Anakin	Skywalker	8766783469	910 Tatooine Road, Tatooine	Yes	N
-# df['Phone_Number']=df['Phone_Number'].str.replace("nan--", '')
-# df['Phone_Number']=df['Phone_Number'].str.replace("Na--", '')
+
+df['Phone_Number']=df['Phone_Number'].str.replace("nan--", '')
+df['Phone_Number']=df['Phone_Number'].str.replace("Na--", '')
 df
+
 CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Contact
 0	1001	Frodo	Baggins	1235455421	123 Shire Lane, Shire	Yes	No
 1	1002	Abed	Nadir	1236439775	93 West Main Street	No	Yes
@@ -359,8 +374,10 @@ CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Cont
 17	1018	Clark	Kent	NaN	3498 Super Lane	Y	NaN
 18	1019	Creed	Braton	Na	N/a	N/a	Yes
 19	1020	Anakin	Skywalker	8766783469	910 Tatooine Road, Tatooine	Yes	N
+
 df[["Street_Address", "State", "Zip_Code"]] = df["Address"].str.split(',', n=2, expand=True)
 df
+
 CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Contact	Street_Address	State	Zip_Code
 0	1001	Frodo	Baggins	1235455421	123 Shire Lane, Shire	Yes	No	123 Shire Lane	Shire	None
 1	1002	Abed	Nadir	1236439775	93 West Main Street	No	Yes	93 West Main Street	None	None
@@ -382,10 +399,12 @@ CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Cont
 17	1018	Clark	Kent	NaN	3498 Super Lane	Y	NaN	3498 Super Lane	None	None
 18	1019	Creed	Braton	Na	N/a	N/a	Yes	N/a	None	None
 19	1020	Anakin	Skywalker	8766783469	910 Tatooine Road, Tatooine	Yes	N	910 Tatooine Road	Tatooine	None
-# df = pd.read_csv(r'213update.csv')
-# df["Paying Customer"] = df["Paying Customer"].str.replace('Yes', 'Y')
-# df["Paying Customer"] = df["Paying Customer"].str.replace('No', 'N')
-# df
+
+df = pd.read_csv(r'213update.csv')
+df["Paying Customer"] = df["Paying Customer"].str.replace('Yes', 'Y')
+df["Paying Customer"] = df["Paying Customer"].str.replace('No', 'N')
+df
+
 CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Contact	Street_Address	State	Zip_Code
 0	1001	Frodo	Baggins	123-545-5421	123 Shire Lane, Shire	Y	No	123 Shire Lane	Shire	NaN
 1	1002	Abed	Nadir	123-643-9775	93 West Main Street	N	Yes	93 West Main Street	NaN	NaN
@@ -407,9 +426,11 @@ CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Cont
 17	1018	Clark	Kent	NaN	3498 Super Lane	Y	NaN	3498 Super Lane	NaN	NaN
 18	1019	Creed	Braton	NaN	N/a	N/a	Yes	N/a	NaN	NaN
 19	1020	Anakin	Skywalker	876-678-3469	910 Tatooine Road, Tatooine	Y	N	910 Tatooine Road	Tatooine	NaN
+
 df["Do_Not_Contact"] = df["Do_Not_Contact"].str.replace('Yes', 'Y')
 df["Do_Not_Contact"] = df["Do_Not_Contact"].str.replace('No', 'N')
 df
+
 CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Contact	Street_Address	State	Zip_Code
 0	1001	Frodo	Baggins	123-545-5421	123 Shire Lane, Shire	Y	N	123 Shire Lane	Shire	NaN
 1	1002	Abed	Nadir	123-643-9775	93 West Main Street	N	Y	93 West Main Street	NaN	NaN
@@ -431,8 +452,10 @@ CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Cont
 17	1018	Clark	Kent	NaN	3498 Super Lane	Y	NaN	3498 Super Lane	NaN	NaN
 18	1019	Creed	Braton	NaN	N/a	N/a	Y	N/a	NaN	NaN
 19	1020	Anakin	Skywalker	876-678-3469	910 Tatooine Road, Tatooine	Y	N	910 Tatooine Road	Tatooine	NaN
+
 df = df.fillna('')
 df
+
 CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Contact	Street_Address	State	Zip_Code
 0	1001	Frodo	Baggins	123-545-5421	123 Shire Lane, Shire	Y	N	123 Shire Lane	Shire	
 1	1002	Abed	Nadir	123-643-9775	93 West Main Street	N	Y	93 West Main Street		
@@ -454,11 +477,13 @@ CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Cont
 17	1018	Clark	Kent		3498 Super Lane	Y		3498 Super Lane		
 18	1019	Creed	Braton				Y			
 19	1020	Anakin	Skywalker	876-678-3469	910 Tatooine Road, Tatooine	Y	N	910 Tatooine Road	Tatooine	
+
 for x in df.index:
     if df.loc[x, "Phone_Number"] == '':
         df.drop(x, inplace=True)
         
 df
+
 CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Contact	Street_Address	State	Zip_Code
 0	1001	Frodo	Baggins	123-545-5421	123 Shire Lane, Shire	Y	N	123 Shire Lane	Shire	
 4	1005	Jon	Snow	876-678-3469	123 Dragons Road	Y	N	123 Dragons Road		
@@ -470,8 +495,10 @@ CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Cont
 15	1016	Ron	Weasley	123-545-5421	2395 Hogwarts Avenue	N	N	2395 Hogwarts Avenue		
 16	1017	Michael	Scott	123-643-9775	121 Paper Avenue, Pennsylvania	Y	N	121 Paper Avenue	Pennsylvania	
 19	1020	Anakin	Skywalker	876-678-3469	910 Tatooine Road, Tatooine	Y	N	910 Tatooine Road	Tatooine	
+
 df = df.drop(columns='Zip_Code')
 df
+
 index	CustomerID	First_Name	Last_Name	Phone_Number	Address	Paying Customer	Do_Not_Contact	Street_Address	State
 0	0	1001	Frodo	Baggins	123-545-5421	123 Shire Lane, Shire	Y	N	123 Shire Lane	Shire
 1	4	1005	Jon	Snow	876-678-3469	123 Dragons Road	Y	N	123 Dragons Road	
