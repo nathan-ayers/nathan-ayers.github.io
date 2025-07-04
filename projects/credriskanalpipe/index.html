@@ -107,6 +107,23 @@
       color: #444;
     }
 
+        /* Dataset Section */
+    .datasets {
+      max-width: 800px;
+      margin: 2em auto;
+      padding: 0 1em;
+      color: #444;
+    }
+    .datasets h3 {
+      margin-top: 1.5em;
+    }
+    .datasets ul {
+      margin: 0.5em 0 1em 1.5em;
+    }
+    .datasets li {
+      margin: 0.3em 0;
+    }
+
     /* Key Features */
     ul {
       list-style: none;
@@ -170,6 +187,45 @@
       <li><strong>Airflow / Cron & Makefile:</strong> Orchestrates and schedules all pipeline steps—from ingestion to dashboard refresh.</li>
       <li><strong>GitHub Actions:</strong> CI/CD that runs dbt tests and Python unit tests on every push, ensuring code reliability.</li>
     </ul>
+
+    <!-- Why These Datasets -->
+    <h2>Why These Datasets</h2>
+    <div class="datasets">
+      <h3>1. Loan‑level data (Lending Club)</h3>
+      <p><strong>What it is:</strong></p>
+      <ul>
+        <li><strong>Loan amount:</strong> Amount borrowed.</li>
+        <li><strong>Term:</strong> Repayment duration in months.</li>
+        <li><strong>Grade:</strong> A–G credit tier.</li>
+        <li><strong>Borrower profile:</strong> Income, employment, DTI.</li>
+      </ul>
+      <p><strong>Why it matters:</strong></p>
+      <ul>
+        <li><strong>Default rate:</strong> % of loans not fully repaid.</li>
+        <li><strong>Loss given default:</strong> Actual money lost.</li>
+        <li><strong>Credit‑grade analysis:</strong> Risk stratification by grade.</li>
+      </ul>
+
+      <h3>2. Bank stock prices (JPM, BAC, C, WFC, GS)</h3>
+      <p><strong>What it is:</strong> Daily OHLC & volume for top U.S. banks.</p>
+      <ul>
+        <li><strong>Volatility:</strong> Price swing measurement.</li>
+        <li><strong>Returns:</strong> Performance over time.</li>
+        <li><strong>Sharpe ratio:</strong> Return per unit risk.</li>
+      </ul>
+
+      <h3>3. Macroeconomic indicators (Unemployment, GDP, CPI)</h3>
+      <p><strong>What it is:</strong> Essential economic metrics.</p>
+      <ul>
+        <li><strong>Unemployment:</strong> % jobless actively seeking work.</li>
+        <li><strong>GDP growth:</strong> Economic output change.</li>
+        <li><strong>CPI:</strong> Inflation via consumer prices.</li>
+      </ul>
+      <p><strong>Why it matters:</strong> Economic trends drive loan performance and market valuations.</p>
+
+      <h3>Bringing it all together</h3>
+      <p>Combining borrower behaviors, market sentiment, and economic context delivers a 360° view of financial risk and opportunity—fueling data‑driven decisions in banking.</p>
+    </div>
 
     <!-- Screenshots -->
     <h2>Screenshots</h2>
