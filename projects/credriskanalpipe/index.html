@@ -237,14 +237,18 @@
       </figure>
       <figure>
         <img src="assets/raw_download.png" alt="Raw data download">
-        <figcaption>This file uses requests library. We specify where to save the data. We create a function that has a target URL where our data lies. We specify where the .zip will be landing. If the HTTP request is valid, the we write the data by chunks to ensure we don't exhaust our memory (industry-standard practice).</figcaption>
+        <figcaption>Functions created to extract data from different end points</figcaption>
+      </figure>
+            <figure>
+        <img src="assets/raw.png" alt="Raw data download">
+        <figcaption>Data gathered from functions created in first python script</figcaption>
+        <figcaption>Our next step is to parquetize our data to columnar</figcaption>
       </figure>
     </div>
 
     <!-- Key Features -->
     <h2>Key Features</h2>
     <ul>
-      <li><strong>Clear structure &amp; docs:</strong> Modular folders, inline comments, and step-by-step READMEs.</li>
       <li><strong>Raw data ingestion:</strong> Python script with streaming download via <code>requests</code>.</li>
       <li><strong>Efficient storage:</strong> CSV → Snappy-compressed Parquet using <code>pandas</code> for fast reads.</li>
       <li><strong>Local warehouse:</strong> DuckDB file as a zero-admin SQL engine, fully compatible with dbt.</li>
@@ -258,6 +262,10 @@
     <div class="footer-links">
       <a href="https://github.com/nayers17/credRiskAnalPipe" target="_blank">View on GitHub ↗</a>
     </div>
+    <div class="footer-links">
+      <a href="https://medium.com/@naprimarycontact/financial-data-pipeline-a95e6b249d7c" target="_blank">Detailed Article ↗</a>
+    </div>
+
 
   </div>
 </body>
