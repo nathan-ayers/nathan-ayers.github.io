@@ -146,15 +146,15 @@
     <div class="stats">
       <div class="stat">
         <h2>1,000 Students</h2>
-        <p>800 train | 200 test</p>
+        <p class="subtitle">800 train | 200 test</p>
       </div>
       <div class="stat">
-        <h2>7 Models</h2>
-        <p>LR · Ridge · Lasso · RF · AdaBoost · CatBoost · XGB</p>
+        <h2>9 Models</h2>
+        <p class="subtitle">Ridge · LR · RF Regr. · CB Regr. · AdaBoost Regr. · XGB Regr. · Lasso · KN Regr. · Decision Tree</p>
       </div>
       <div class="stat">
-        <h2>Final R² 0.88</h2>
-        <p>Linear Regression on test set</p>
+        <h2>Final R² 0.8806</h2>
+        <p class="subtitle">Linear Regression on test set</p>
       </div>
     </div>
 
@@ -181,13 +181,15 @@
       <li><strong>End-to-End ML Flow:</strong> data loading → cleaning (pandas) → EDA → feature engineering → model training → evaluation → deployment.</li>
       <li><strong>Models Compared:</strong>
         <ul>
-          <li>Linear Regression: R² 0.880</li>
-          <li>Ridge Regression: R² 0.881</li>
-          <li>Lasso Regression: R² 0.825</li>
-          <li>Random Forest Regressor: R² 0.856</li>
-          <li>AdaBoost Regressor: R² 0.845</li>
-          <li>CatBoost Regressor: R² 0.852</li>
-          <li>XGBoost Regressor: R² 0.828</li>
+          <li>Ridge: R² .8806</li>
+          <li>Linear Regression: R² .8804</li>
+          <li>Random Forest Regressor: R² 0.8555</li>
+          <li>CatBoost Regressor: R² 0.8516</li>
+          <li>AdaBoost Regressor: R² 0.8455</li>
+          <li>XGBRegressor: R² 0.8278</li>
+          <li>Lasso: R² 0.8253</li>
+          <li>KN Regressor: R² 0.7840</li>
+          <li>Decision Tree: R² 0.7471</li>
         </ul>
       </li>
       <li><strong>Final Model:</strong> Linear Regression chosen for simplicity & comparable performance.</li>
