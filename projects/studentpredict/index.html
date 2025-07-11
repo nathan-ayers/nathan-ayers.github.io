@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Performance Predictor</title>
+  <style>
+    /* Base */
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* Hero */
+    h1 {
+      text-align: center;
+      margin-bottom: 0.25em;
+    }
+    .subtitle {
+      text-align: center;
+      margin-top: 0;
+      color: #555;
+    }
+
+    /* Quick Stats */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin: 2rem 0;
+    }
+    .stat h2 {
+      font-size: 2rem;
+      margin: 0;
+    }
+    .stat p {
+      margin: 0.25em 0 0;
+      color: #333;
+    }
+
+    /* Section Headings */
+    h2 {
+      text-align: center;
+      margin: 3rem 0 1rem;
+    }
+
+    /* Screenshots */
+    .compare {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+    }
+    .compare figure {
+      position: relative;
+      overflow: visible;
+      flex: 1 1 300px;
+      max-width: 45%;
+      text-align: center;
+    }
+    .compare img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-width: 600px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      cursor: zoom-in;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transform-origin: center center;
+    }
+    .compare img:hover {
+      transform: scale(2);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      z-index: 10;
+    }
+    .compare figcaption {
+      margin-top: 0.5rem;
+      color: #444;
+    }
+
+    /* Key Features */
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    ul li {
+      margin: 0.75em 0;
+    }
+    ul ul {
+      margin: 0.5em 0 0 1.5em;
+    }
+    code {
+      background: #f6f8fa;
+      padding: 0.2em 0.4em;
+      border-radius: 3px;
+      font-family: monospace;
+    }
+
+    /* Model table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.5em 1em;
+      text-align: left;
+    }
+    th {
+      background: #f0f0f0;
+    }
+
+    /* Footer Links */
+    .footer-links {
+      text-align: center;
+      margin: 3rem 0 1rem;
+    }
+    .footer-links a {
+      color: #0066cc;
+      text-decoration: none;
+      margin: 0 0.5em;
+    }
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Hero -->
+    <h1>Student Performance Predictor</h1>
+    <p class="subtitle">
+      Python · pandas · scikit-learn · Flask · Docker · AWS
+    </p>
+
+    <!-- Quick Stats -->
+    <div class="stats">
+      <div class="stat">
+        <h2>1,000 Students</h2>
+        <p>800 train | 200 test</p>
+      </div>
+      <div class="stat">
+        <h2>7 Models</h2>
+        <p>LR · Ridge · Lasso · RF · AdaBoost · CatBoost · XGB</p>
+      </div>
+      <div class="stat">
+        <h2>Final R² 0.88</h2>
+        <p>Linear Regression on test set</p>
+      </div>
+    </div>
+
+    <!-- Screenshots -->
+    <h2>Pipeline & Results</h2>
+    <div class="compare">
+      <figure>
+        <img src="./assets/mvanalysis.png" alt="EDA distributions">
+        <figcaption>Multivariate Analysis</figcaption>
+      </figure>
+      <figure>
+        <img src="./assets/model-comparison.png" alt="Model R2 comparison">
+        <figcaption>Test R² across all models</figcaption>
+      </figure>
+      <figure>
+        <img src="./assets/app-ui.png" alt="Flask app UI">
+        <figcaption>Flask web app (Dockerized)</figcaption>
+      </figure>
+    </div>
+
+    <!-- Key Features -->
+    <h2>Key Features</h2>
+    <ul>
+      <li><strong>End-to-End ML Flow:</strong> data loading → cleaning (pandas) → EDA → feature engineering → model training → evaluation → deployment.</li>
+      <li><strong>Models Compared:</strong>
+        <ul>
+          <li>Linear Regression: R² 0.880</li>
+          <li>Ridge Regression: R² 0.881</li>
+          <li>Lasso Regression: R² 0.825</li>
+          <li>Random Forest Regressor: R² 0.856</li>
+          <li>AdaBoost Regressor: R² 0.845</li>
+          <li>CatBoost Regressor: R² 0.852</li>
+          <li>XGBoost Regressor: R² 0.828</li>
+        </ul>
+      </li>
+      <li><strong>Final Model:</strong> Linear Regression chosen for simplicity & comparable performance.</li>
+      <li><strong>Deployment:</strong> Flask API wrapped in Docker and hosted on AWS ECS for scalable predictions.</li>
+    </ul>
+
+    <!-- Footer Links -->
+    <div class="footer-links">
+      <a href="https://github.com/nathan-ayers/mlproject" target="_blank">
+        View on GitHub ↗
+      </a>
+    </div>
+
+  </div>
+</body>
+</html>
