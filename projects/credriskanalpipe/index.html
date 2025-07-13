@@ -98,7 +98,7 @@
       transform-origin: center center;
     }
     .compare img:hover {
-      transform: scale(1.05);
+      transform: scale(1.75);
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       z-index: 10;
     }
@@ -169,7 +169,7 @@
         This Local Financial Data Pipeline acquires three core datasets: detailed loan-level records (e.g., loan amounts, terms, grades, borrower profiles) from Lending Club, daily bank stock prices (OHLC) for major institutions (JPM, BAC, C, WFC, GS), and macroeconomic indicators (unemployment, GDP growth, CPI) via the FRED API. We ingest and archive raw files, clean and convert them to efficient Parquet format, and load into DuckDB for SQL-based transformations with dbt, building a star-schema warehouse. We then apply both batch (Spark) and real-time (Kafka + Flink) processes to compute key metrics—default rates by credit grade, rolling volatility, Sharpe ratios, and macro correlations—and train a baseline default-prediction model. Finally, a Streamlit dashboard visualizes KPIs, time-series analyses, and model insights.
       </p>
       <p>
-        By project end, you’ll have a fully automated, reproducible pipeline that mimics enterprise-grade banking analytics: from raw ingestion to actionable insights. This empowers financial organizations to monitor portfolio risk in near–real time, evaluate market exposures, and support data-driven lending or investment decisions—all without cloud costs.
+        By project end, it will be a fully automated, reproducible pipeline that mimics enterprise-grade banking analytics: from raw ingestion to actionable insights. This empowers financial organizations to monitor portfolio risk in near–real time, evaluate market exposures, and support data-driven lending or investment decisions—all without cloud costs.
       </p>
     </div>
 
@@ -239,10 +239,34 @@
         <img src="assets/raw_download.png" alt="Raw data download">
         <figcaption>Functions created to extract data from different end points</figcaption>
       </figure>
-            <figure>
+      <figure>
         <img src="assets/raw.png" alt="Raw data download">
         <figcaption>Data gathered from functions created in first python script</figcaption>
         <figcaption>Our next step is to parquetize our data to columnar</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/exmartmodel.png" alt="Raw data download">
+        <figcaption>Creating a model to pass our staging and mart models through</figcaption>
+        <figcaption>to create tables based off our analytical needs</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/transformedtables.png" alt="Raw data download">
+        <figcaption>This is our data warehouse with our transformed data in a .duckdb file</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/streamlit1.png" alt="Raw data download">
+        <figcaption>We built a simple, interactive Streamlit application to find insights from our transformed data.</figcaption>
+        <figcaption>KPIs to start</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/streamlit2.png" alt="Raw data download">
+        <figcaption>First Interactive Pivot Chart</figcaption>
+        <figcaption>Adjust the columns on the left bar interactively</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/streamlit3.png" alt="Raw data download">
+        <figcaption>Second of three interactive pivot chart</figcaption>
+        <figcaption></figcaption>
       </figure>
     </div>
 
@@ -255,17 +279,13 @@
       <li><strong>Stream processing:</strong> Kafka for ingesting real-time streams and Flink for continuous analytics.</li>
       <li><strong>Distributed compute:</strong> Spark for scalable ETL and batch processing of large datasets.</li>
       <li><strong>Reproducibility:</strong> Cron/Makefile or Airflow DAG for automated, scheduled runs.</li>
-      <li><strong>Portfolio-ready:</strong> Demonstrates end-to-end data engineering skills for finance roles.</li>
     </ul>
 
     <!-- Footer -->
     <div class="footer-links">
       <a href="https://github.com/nayers17/credRiskAnalPipe" target="_blank">View on GitHub ↗</a>
-    </div>
-    <div class="footer-links">
       <a href="https://medium.com/@naprimarycontact/financial-data-pipeline-a95e6b249d7c" target="_blank">Detailed Article ↗</a>
     </div>
-
 
   </div>
 </body>
