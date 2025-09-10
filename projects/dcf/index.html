@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Discounted Cash Flow (DCF) Valuation</title>
+  <style>
+    /* Base */
+    body { font-family: sans-serif; margin: 0; padding: 2rem; color: #333; }
+    .container { max-width: 960px; margin: 0 auto; }
+
+    /* Hero */
+    h1 { text-align: center; margin-bottom: 0.25em; }
+    .subtitle { text-align: center; margin-top: 0; color: #555; }
+
+    /* Quick Stats */
+    .stats { display: flex; justify-content: center; gap: 3rem; margin: 2rem 0; }
+    .stat h2 { font-size: 2rem; margin: 0; }
+    .stat p { margin: 0.25em 0 0; }
+
+    /* Section Headings */
+    h2 { text-align: center; margin: 3rem 0 1rem; }
+
+    /* Screenshots */
+    .compare { display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; }
+    .compare figure { position: relative; overflow: visible; flex: 1 1 300px; max-width: 45%; text-align: center; isolation: isolate; }
+    .compare img {
+      display: block; width: 100%; height: auto; max-width: 600px;
+      border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,.1);
+      cursor: zoom-in; transition: transform .3s ease, box-shadow .3s ease; transform-origin: center center;
+    }
+    .compare img:hover { transform: scale(2.2); box-shadow: 0 8px 20px rgba(0,0,0,.2); position: relative; z-index: 999; background: #fff; }
+    .compare figcaption { margin-top: .5rem; color: #444; }
+
+    /* Lists / code */
+    ul { list-style: none; padding: 0; }
+    ul li { margin: .75em 0; }
+    ul ul { margin: .5em 0 0 1.5em; }
+    code { background: #f6f8fa; padding: .2em .4em; border-radius: 3px; font-family: monospace; }
+    pre { background: #f6f8fa; padding: 1rem; border-radius: 4px; overflow-x: auto; }
+
+    /* Footer */
+    .footer-links { text-align: center; margin: 3rem 0 1rem; }
+    .footer-links a { color: #0066cc; text-decoration: none; margin: 0 .5em; }
+    .footer-links a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Hero -->
+    <h1>Discounted Cash Flow (DCF) Valuation</h1>
+    <p class="subtitle">
+      End-to-end DCF: Forecast Free Cash Flow → WACC → Terminal Value (Gordon & Exit Multiple) → Discount to Present → EV → Equity Value → Implied Share Price
+    </p>
+
+    <!-- Quick Stats -->
+    <div class="stats">
+      <div class="stat">
+        <h2>5 Years</h2>
+        <p class="subtitle">Explicit FCF forecast horizon</p>
+      </div>
+      <div class="stat">
+        <h2>Dual TV</h2>
+        <p class="subtitle">Perpetuity + Exit Multiple</p>
+      </div>
+      <div class="stat">
+        <h2>WACC</h2>
+        <p class="subtitle">CAPM cost of equity + after-tax cost of debt</p>
+      </div>
+    </div>
+
+    <!-- Screenshots -->
+    <h2>Model Screenshots</h2>
+    <div class="compare">
+      <figure>
+        <img src="./assets/fcf.png" alt="Free cash flow schedule">
+        <figcaption>Free Cash Flow</figcaption>
+      </figure>
+      <figure>
+        <img src="./assets/wacc.png" alt="WACC and CAPM">
+        <figcaption>Weighted Average Cost of Capital</figcaption>
+      </figure>
+      <figure>
+        <img src="./assets/terminalvalue.png" alt="Terminal value methods">
+        <figcaption>Terminal Value: Gordon Growth & Exit EV/EBITDA</figcaption>
+      </figure>
+      <figure>
+        <img src="./assets/discounting.png" alt="Discounting to present value">
+        <figcaption>Discounting cash flows & terminal value to PV</figcaption>
+      </figure>
+      <figure>
+        <img src="./assets/equityvalue.png" alt="EV to equity to price">
+        <figcaption>EV → Equity Value → Implied Share Price</figcaption>
+      </figure>
+            <figure>
+        <img src="./assets/fulldcf.png" alt="Finalized DCF">
+        <figcaption>Full and finalized DCF</figcaption>
+      </figure>
+    </div>
+
+    <!-- Key Features -->
+    <h2>Key Features</h2>
+    <ul>
+      <li><strong>Forecasted Free Cash Flow:</strong> 5 year explicit forecast using EBIT(1-T), add-backs for non-cash D&A, and explicit Capex/ΔNWC.</li>
+      <li><strong>WACC from market inputs:</strong> CAPM (<code>r_f + β (R_m − r_f)</code>) for cost of equity, after-tax cost of debt (<code>r_d(1−T)</code>), weighted by target capital structure.</li>
+      <li><strong>Two terminal value approaches:</strong> Gordon Growth (<code>TV = FCF<sub>n+1</sub> / (WACC − g)</code>) and Exit Multiple (<code>EV/EBITDA</code>), with option to average or bracket a range.</li>
+      <li><strong>Clean discounting logic:</strong> build discount factors and present values for each year; PV of terminal value added to PV of explicit period.</li>
+      <li><strong>EV to Equity bridge:</strong> net debt adjustments (cash & equivalents, marketable securities, short- & long-term debt) to get equity value and per-share price.</li>
+      <li><strong>Modeling notes:</strong> supports mid-year convention, sensitivity tables for WACC & g, and sanity checks on TV weight vs EV.</li>
+    </ul>
+
+    <!-- Core Formulas (compact) -->
+    <h2>Core Formulas</h2>
+    <pre><code>// Free Cash Flow (to firm)
+FCF = EBIT * (1 - TaxRate) + D&amp;A - Capex - ΔNWC
+
+// CAPM (cost of equity)
+R_e = r_f + β * (R_m - r_f)
+
+// WACC
+WACC = (E/(D+E)) * R_e + (D/(D+E)) * R_d * (1 - TaxRate)
+
+// Terminal Value methods
+TV_Gordon = FCF_(n) * (1 + g) / (WACC - g)
+TV_Exit   = EBITDA_(n) * ExitMultiple
+
+// Discount factor (year t)
+DF_t = 1 / (1 + WACC)^t
+
+// Enterprise Value
+EV = Σ (FCF_t * DF_t) + TV * DF_n
+
+// Equity Value and Price
+EquityValue = EV + Cash + MarketableSecs - ST_Debt - LT_Debt
+ImpliedPrice = EquityValue / SharesOut
+</code></pre>
+
+    <!-- Workflow -->
+    <h2>Workflow</h2>
+    <ul>
+      <li><strong>1) Forecast FCF:</strong> project EBIT, taxes, D&A, Capex, and ΔNWC for each year.</li>
+      <li><strong>2) Build WACC:</strong> compute CAPM equity cost; blend with after-tax debt cost.</li>
+      <li><strong>3) Terminal Value:</strong> calculate Gordon Growth and Exit EV/EBITDA (with defensible g and multiple).</li>
+      <li><strong>4) Discount to PV:</strong> apply discount factors to all yearly FCFs and the terminal value.</li>
+      <li><strong>5) Bridge to Price:</strong> EV → Equity (net debt) → Implied price per share.</li>
+    </ul>
+
+    <!-- Assumptions & Notes -->
+    <h2>Assumptions & Notes</h2>
+    <ul>
+      <li><strong>Timing:</strong> supports mid-year convention (use <code>t - 0.5</code> in discount factor) when cash flows occur throughout the year.</li>
+      <li><strong>Sensitivity:</strong> WACC and g (and Exit Multiple) two-way data tables to show valuation bands.</li>
+      <li><strong>Sanity checks:</strong> TV as % of EV, growth &gt; inflation but &lt; long-run GDP, and multiple anchored to comps.</li>
+      <li><strong>Limitations:</strong> DCF less reliable with persistently negative FCF (use relative methods or scenario cases).</li>
+    </ul>
+
+    <!-- Links -->
+    <div class="footer-links">
+      <a href="https://github.com/nathan-ayers/dcf" target="_blank">View Model on GitHub ↗</a>
+      <!-- <a href="https://docs.google.com/..." target="_blank">Open Google Sheet (view copy) ↗</a> -->
+    </div>
+
+  </div>
+</body>
+</html>
